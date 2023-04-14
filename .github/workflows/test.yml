@@ -14,10 +14,9 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y freewrap
       - name: Build executable
         run: |
-          freewrap gui.tcl -o gui
+          ./freewrap gui.tcl -o gui
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
