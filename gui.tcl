@@ -1,8 +1,8 @@
 wm withdraw .
 # Define a function to run a command and return a process id
-proc run_command {cmd} {
+proc run_command {cmd arg} {
   # Use exec with & to run the command in the background
-  set pid [exec $cmd &]
+  set pid [exec $cmd $arg &]
   # Return the process id
   return $pid
 }
@@ -35,11 +35,11 @@ set python_pid ""
 proc start_callback {} {
   # Run the Rust backend binary and store the process id
   global rust_pid
-  set rust_pid [run_command "./netspeed_server"]
+  set rust_pid [run_command "./netspeed_server" "enp5s0"]
 
   # Run the Python frontend binary and store the process id
   global python_pid
-  set python_pid [run_command "./ns_gui_sse"]
+  set python_pid [run_command "./ns_gui_sse" ""]
 
   # Update the label text
   global label
@@ -72,6 +72,9 @@ $start_button configure -command start_callback
 
 # Connect the stop button click event to the stop callback function
 $stop_button configure -command stop_callback
+
+# Call the start_callback function when the window is opened
+start_callback
 
 # Start the main event loop
 tkwait window $window
