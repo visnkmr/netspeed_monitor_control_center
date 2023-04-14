@@ -14,8 +14,6 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-      - name: Set up FreeWrap
-        uses: actions/setup-freewrap@v1
       - name: Build executable
         run: |
           freewrap gui.tcl -o gui
