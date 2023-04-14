@@ -6,7 +6,7 @@ wm attributes . -topmost 1
 # wm attributes . -disabled 1
 # wm attributes . -transparentcolor white
 
-label .time -text "" -font {Helvetica 48} -bg white
+label .time -text "" -bg black -fg white
 pack .time
 
 proc update_time {} {
