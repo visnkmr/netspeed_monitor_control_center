@@ -14,10 +14,10 @@ jobs:
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.date.outputs.date }}
-          name: ${{ steps.date.outputs.date }}
           draft: false
           prerelease: false
+          tag_name: ${{ steps.date.outputs.date }}
+          name: ${{ steps.date.outputs.date }}
           body: |
             - ${{ github.event.head_commit.message }} ${{ github.sha }}
         env:
