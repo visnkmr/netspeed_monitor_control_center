@@ -11,6 +11,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: freewrap
+          path: freewrap
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
@@ -18,25 +23,13 @@ jobs:
           prerelease: false
           tag_name: ${{ steps.date.outputs.date }}
           name: ${{ steps.date.outputs.date }}
+          files: |
+            freewrap
           body: |
             - ${{ github.event.head_commit.message }} ${{ github.sha }}
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-      - name: Get Release URL
-        id: release
-        uses: softprops/action-gh-release@v1
-        with:
-          args: |
-            get release url
-      - name: Upload binary
-        uses: actions/upload-artifact@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.output.url }}
-          asset_path: freewrap
-          asset_name: freewrap
-          asset_content_type: application/octet-stream
+      
       # - name: Install dependencies
       #   run: |
       #     sudo apt-get update
