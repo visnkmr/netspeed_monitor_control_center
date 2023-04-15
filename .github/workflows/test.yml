@@ -11,31 +11,57 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-      - name: Build executable
-        run: |
-          freewrap gui.tcl -o gui
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
+          tag_name: ${{ steps.date.outputs.date }}
+          name: ${{ steps.date.outputs.date }}
           draft: false
           prerelease: false
-      - name: Upload release asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
+          body: |
+            - ${{ github.event.head_commit.message }} ${{ github.sha }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      - name: Get Release URL
+        id: release
+        uses: softprops/action-gh-release@v1
+        with:
+          args: |
+            get release url
+      - name: Upload binary
+        uses: actions/upload-artifact@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./gui
-          asset_name: netspeed_monitor_control_server_amd64_linux
+          upload_url: ${{ steps.release.output.url }}
+          asset_path: freewrap
+          asset_name: freewrap
           asset_content_type: application/octet-stream
+      # - name: Install dependencies
+      #   run: |
+      #     sudo apt-get update
+      # - name: Build executable
+      #   run: |
+      #     freewrap gui.tcl -o gui
+      # - name: Create release
+      #   id: create_release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ github.ref }}
+      #     release_name: Release ${{ github.ref }}
+      #     body: |
+      #       Changes in this Release
+      #     draft: false
+      #     prerelease: false
+      # - name: Upload release asset
+      #   id: upload-release-asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./gui
+      #     asset_name: netspeed_monitor_control_server_amd64_linux
+      #     asset_content_type: application/octet-stream
