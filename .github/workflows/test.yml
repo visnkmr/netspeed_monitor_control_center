@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     # - name: Download freewrap
     #   run: |
     #     sudo wget https://sourceforge.net/projects/freewrap/files/freewrap/freeWrap%206.75/freewrap675.tar.gz/download -O ./freewrap.tar.gz
