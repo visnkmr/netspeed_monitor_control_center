@@ -12,12 +12,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install freewrap
       run: |
-        wget https://sourceforge.net/projects/freewrap/files/freewrap/freeWrap%206.73/freewrap673.tar.gz/download -O freewrap.tar.gz
+        wget https://sourceforge.net/projects/freewrap/files/freewrap/freeWrap%206.75/freewrap675.tar.gz/download -O freewrap.tar.gz
         tar -xzf freewrap.tar.gz
-        chmod +x freewrap673/freewrap
+        chmod +x freewrap675/linux64/freewrap
     - name: Build executable
       run: |
-        ./freewrap673/freewrap gui.tcl -o gui
+        ./freewrap675/linux64/freewrap gui.tcl -o gui
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y_%m_%dT%H_%M')"
