@@ -32,11 +32,10 @@ jobs:
     #     echo $(ls ./freewrap/linux64/freewrap)
     - name: Change perms freewrap
       run: |
-        sudo chmod +x ${{ github.workspace }}/freewrap
+        sudo chmod +x freewrap
     - name: Build executable
       run: |
-        sudo ${{ github.workspace }}/freewrap ${{ github.workspace }}/gui.tcl
-      continue-on-error: true
+        sudo freewrap gui.tcl -o gui
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y_%m_%dT%H_%M')"
