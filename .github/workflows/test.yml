@@ -1,60 +1,38 @@
-name: Build and Release
+name: Build
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: freewrap
-          path: freewrap
-      - name: Publish
-        uses: softprops/action-gh-release@v1
-        with:
-          draft: false
-          prerelease: false
-          tag_name: ${{ steps.date.outputs.date }}
-          name: ${{ steps.date.outputs.date }}
-          files: |
-            freewrap
-          body: |
-            - ${{ github.event.head_commit.message }} ${{ github.sha }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-      
-      # - name: Install dependencies
-      #   run: |
-      #     sudo apt-get update
-      # - name: Build executable
-      #   run: |
-      #     freewrap gui.tcl -o gui
-      # - name: Create release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     tag_name: ${{ github.ref }}
-      #     release_name: Release ${{ github.ref }}
-      #     body: |
-      #       Changes in this Release
-      #     draft: false
-      #     prerelease: false
-      # - name: Upload release asset
-      #   id: upload-release-asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ./gui
-      #     asset_name: netspeed_monitor_control_server_amd64_linux
-      #     asset_content_type: application/octet-stream
+    - uses: actions/checkout@v2
+    - name: Install freewrap
+      run: |
+        wget https://sourceforge.net/projects/freewrap/files/freewrap/freeWrap%206.73/freewrap673.tar.gz/download -O freewrap.tar.gz
+        tar -xzf freewrap.tar.gz
+        chmod +x freewrap673/freewrap
+    - name: Build executable
+      run: |
+        ./freewrap673/freewrap gui.tcl -o gui
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y_%m_%dT%H_%M')"
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        CACHE_ON_FAILURE: true
+      with:
+        tag_name: ${{ steps.date.outputs.date }}
+        name: ${{ steps.date.outputs.date }}
+        draft: false
+        prerelease: false
+        files: |
+          gui
+        # file_name: perlink_amd64_windows
+        body: |
+          - ${{ github.event.head_commit.message }} ${{ github.sha }}
