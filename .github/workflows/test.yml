@@ -11,10 +11,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Download freewrap
+    - name: Cache freewrap
+      uses: actions/cache@v2
+      with:
+        path: freewrap
+        key: ${{ runner.os }}-freewrap-${{ hashFiles('freewrap.tar.gz') }}
+        restore-keys: |
+          ${{ runner.os }}-freewrap-
+          ${{ runner.os }}-
       run: |
         wget https://sourceforge.net/projects/freewrap/files/freewrap/freeWrap%206.75/freewrap675.tar.gz/download -O ${{ github.workspace }}/freewrap.tar.gz
         tar -xzf ${{ github.workspace }}/freewrap.tar.gz
-        echo $ls
+        echo $(ls ${{ github.workspace }})
         echo $(ls ${{ github.workspace }}/freewrap/linux64/)
         chmod +x ${{ github.workspace }}/freewrap/linux64/freewrap
         ${{ github.workspace }}/freewrap/linux64/freewrap gui.tcl -o gui
