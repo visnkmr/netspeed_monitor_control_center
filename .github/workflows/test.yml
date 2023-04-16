@@ -32,10 +32,10 @@ jobs:
     #     echo $(ls ./freewrap/linux64/freewrap)
     - name: Change perms freewrap
       run: |
-        sudo chmod +x ./freewrap
+        sudo chmod +x ${{ github.workspace }}/freewrap
     - name: Build executable
       run: |
-        sudo ./freewrap ./gui.tcl
+        sudo ${{ github.workspace }}/freewrap ${{ github.workspace }}/gui.tcl
       continue-on-error: true
     - name: Get current date
       id: date
