@@ -13,20 +13,10 @@ jobs:
     - name: Download freewrap
       run: |
         wget https://sourceforge.net/projects/freewrap/files/freewrap/freeWrap%206.75/freewrap675.tar.gz/download -O ${{ github.workspace }}/freewrap.tar.gz
-    - name: Unzip freewrap
-      run: |
         tar -xzf ${{ github.workspace }}/freewrap.tar.gz
-    - name: Check path of freewrap
-      run: |
         echo $ls
-    - name: Check path of freewrap
-      run: |
         echo $(ls ${{ github.workspace }}/freewrap/linux64/)
-    - name: Change perms freewrap
-      run: |
         chmod +x ${{ github.workspace }}/freewrap/linux64/freewrap
-    - name: Build executable
-      run: |
         ${{ github.workspace }}/freewrap/linux64/freewrap gui.tcl -o gui
     - name: Get current date
       id: date
