@@ -10,11 +10,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install freewrap
+    - name: Download freewrap
       run: |
         wget https://sourceforge.net/projects/freewrap/files/freewrap/freeWrap%206.75/freewrap675.tar.gz/download -O freewrap.tar.gz
-        tar -xzf freewrap.tar.gz
-        chmod +x freewrap675/linux64/freewrap
+    - name: Unzip freewrap
+      run: |
+        tar -xzf ./freewrap.tar.gz
+    - name: Change perms freewrap
+      run: |
+        chmod +x ./freewrap675/linux64/freewrap
     - name: Build executable
       run: |
         ./freewrap675/linux64/freewrap gui.tcl -o gui
