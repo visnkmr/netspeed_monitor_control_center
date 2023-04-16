@@ -18,10 +18,10 @@ jobs:
         tar -xzf ./freewrap.tar.gz
     - name: Change perms freewrap
       run: |
-        chmod +x ./freewrap675/linux64/freewrap
+        chmod +x ./freewrap/linux64/freewrap
     - name: Build executable
       run: |
-        ./freewrap675/linux64/freewrap gui.tcl -o gui
+        ./freewrap/linux64/freewrap gui.tcl -o gui
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y_%m_%dT%H_%M')"
