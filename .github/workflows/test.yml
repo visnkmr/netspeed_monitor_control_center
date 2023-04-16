@@ -10,8 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Download freewrap
-    - name: Cache freewrap
+    - name: Download and Cache freewrap
       uses: actions/cache@v2
       with:
         path: freewrap
