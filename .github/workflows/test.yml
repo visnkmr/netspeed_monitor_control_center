@@ -12,16 +12,19 @@ jobs:
     - uses: actions/checkout@v2
     - name: Download freewrap
       run: |
-        wget https://sourceforge.net/projects/freewrap/files/freewrap/freeWrap%206.75/freewrap675.tar.gz/download -O freewrap.tar.gz
+        wget https://sourceforge.net/projects/freewrap/files/freewrap/freeWrap%206.75/freewrap675.tar.gz/download -O ${{ github.workspace }}/freewrap.tar.gz
     - name: Unzip freewrap
       run: |
-        tar -xzf ./freewrap.tar.gz
+        tar -xzf ${{ github.workspace }}/freewrap.tar.gz
+    - name: Check path of freewrap
+      run: |
+        echo ${{ github.workspace }}/freewrap/freewrap
     - name: Change perms freewrap
       run: |
-        chmod +x ./freewrap/linux64/freewrap
+        chmod +x ${{ github.workspace }}/freewrap/linux64/freewrap
     - name: Build executable
       run: |
-        ./freewrap/linux64/freewrap gui.tcl -o gui
+        ${{ github.workspace }}/freewrap/linux64/freewrap gui.tcl -o gui
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y_%m_%dT%H_%M')"
