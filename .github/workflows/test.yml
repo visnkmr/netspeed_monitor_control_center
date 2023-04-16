@@ -18,7 +18,10 @@ jobs:
         tar -xzf ${{ github.workspace }}/freewrap.tar.gz
     - name: Check path of freewrap
       run: |
-        echo ${{ github.workspace }}/freewrap/freewrap
+        echo $ls
+    - name: Check path of freewrap
+      run: |
+        echo $(ls ${{ github.workspace }}/freewrap/linux64/)
     - name: Change perms freewrap
       run: |
         chmod +x ${{ github.workspace }}/freewrap/linux64/freewrap
